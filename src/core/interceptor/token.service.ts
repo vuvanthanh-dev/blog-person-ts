@@ -1,4 +1,7 @@
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@/core/constants/token";
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from "@/core/constants/token-constants";
 
 export const TokenService = {
   getAccessToken: (): string | null => localStorage.getItem(ACCESS_TOKEN_KEY),

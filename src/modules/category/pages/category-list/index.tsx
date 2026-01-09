@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import CategoryService from "@/modules/category/service";
-import type { CategoryPayload } from "../../types";
+import type { CategoryPayload } from "@/modules/category/types";
 
 const CategoryListPage = () => {
   useEffect(() => {

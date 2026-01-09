@@ -1,39 +1,29 @@
 import { lazy } from "react";
 import type { RouteMeta } from "./types";
 
-import LoginIcon from "@mui/icons-material/Login";
 import HomeIcon from "@mui/icons-material/Home";
 import CategoryIcon from "@mui/icons-material/Category";
 import ArticleIcon from "@mui/icons-material/Article";
 import LabelIcon from "@mui/icons-material/Label";
 
+import ROUTES_PATH from "@/core/routes";
+
 export const PATHS: RouteMeta[] = [
   {
-    key: "bG9naW4gYmxvZyBwZXJzb24K",
-    path: "/login",
-    pathOriginal: "/login",
-    label: "Đăng nhập",
-    icon: <LoginIcon />,
-    requiresAuth: false,
-    roles: [],
-    hidden: true,
-    component: lazy(() => import("@/modules/auth/pages/login")),
-  },
-  {
     key: "aG9tZSBibG9nIHBlcnNvbgo=",
-    path: "/home",
-    pathOriginal: "/home",
+    path: ROUTES_PATH.home.index,
+    pathOriginal: ROUTES_PATH.home.index,
     label: "Trang chủ",
     icon: <HomeIcon />,
-    requiresAuth: false,
+    requiresAuth: true,
     roles: [],
     hidden: false,
     component: lazy(() => import("@/modules/home/page")),
   },
   {
     key: "Y2F0ZWdvcnkgYmxvZyBwZXJzb24K",
-    path: "/categories/list",
-    pathOriginal: "/categories/list",
+    path: ROUTES_PATH.category.list,
+    pathOriginal: ROUTES_PATH.category.index,
     label: "Danh mục",
     icon: <CategoryIcon />,
     requiresAuth: true,
@@ -43,8 +33,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "Y2F0ZWdvcnktZGV0YWlsIGJsb2cgcGVyc29uCg==",
-    path: "/categories/detail/:id",
-    pathOriginal: "/categories",
+    path: ROUTES_PATH.category.detail,
+    pathOriginal: ROUTES_PATH.category.index,
     label: "Danh mục",
     icon: <CategoryIcon />,
     requiresAuth: true,
@@ -54,8 +44,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "Y2F0ZWdvcnktY29uc3RlYW0gYmxvZyBwZXJzb24K",
-    path: "/categories/update/:id",
-    pathOriginal: "/categories",
+    path: ROUTES_PATH.category.update,
+    pathOriginal: ROUTES_PATH.category.index,
     label: "Danh mục",
     icon: <CategoryIcon />,
     requiresAuth: true,
@@ -65,8 +55,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "Y2F0ZWdvcnktY29uc3RlYW0gYmxvZyBwZXJzb24K",
-    path: "/categories/create",
-    pathOriginal: "/categories",
+    path: ROUTES_PATH.category.create,
+    pathOriginal: ROUTES_PATH.category.index,
     label: "Danh mục",
     icon: <CategoryIcon />,
     requiresAuth: true,
@@ -76,8 +66,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "cG9zdCBibG9nZyBwZXJzb24K",
-    path: "/posts/list",
-    pathOriginal: "/posts/list",
+    path: ROUTES_PATH.post.list,
+    pathOriginal: ROUTES_PATH.post.index,
     label: "Quản lý bài viết",
     icon: <ArticleIcon />,
     requiresAuth: true,
@@ -87,8 +77,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "cG9zdC1kZXRhaWwgYmxvZyBwZXJzb24K",
-    path: "/posts/detail/:id",
-    pathOriginal: "/posts",
+    path: ROUTES_PATH.post.detail,
+    pathOriginal: ROUTES_PATH.post.index,
     label: "Quản lý bài viết",
     icon: <ArticleIcon />,
     requiresAuth: true,
@@ -98,8 +88,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "cG9zdC1kZXRhaWwgYmxvZyBwZXJzb24K",
-    path: "/posts/update/:id",
-    pathOriginal: "/posts",
+    path: ROUTES_PATH.post.update,
+    pathOriginal: ROUTES_PATH.post.index,
     label: "Quản lý bài viết",
     icon: <ArticleIcon />,
     requiresAuth: true,
@@ -109,8 +99,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "cG9zdC1kZXRhaWwgYmxvZyBwZXJzb24K",
-    path: "/posts/create",
-    pathOriginal: "/posts",
+    path: ROUTES_PATH.post.create,
+    pathOriginal: ROUTES_PATH.post.index,
     label: "Quản lý bài viết",
     icon: <ArticleIcon />,
     requiresAuth: true,
@@ -120,8 +110,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "dGFnIGJsb2dnIHBlcnNvbgo=",
-    path: "/tags/list",
-    pathOriginal: "/tags",
+    path: ROUTES_PATH.tag.list,
+    pathOriginal: ROUTES_PATH.tag.index,
     label: "Quản lý tag",
     icon: <LabelIcon />,
     requiresAuth: true,
@@ -131,8 +121,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "dGFnIGJsb2dnIHBlcnNvbgo=",
-    path: "/tags/detail/:id",
-    pathOriginal: "/tags",
+    path: ROUTES_PATH.tag.detail,
+    pathOriginal: ROUTES_PATH.tag.index,
     label: "Quản lý tag",
     icon: <LabelIcon />,
     requiresAuth: true,
@@ -142,8 +132,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "dGFnIGJsb2dnIHBlcnNvbgo=",
-    path: "/tags/update/:id",
-    pathOriginal: "/tags",
+    path: ROUTES_PATH.tag.update,
+    pathOriginal: ROUTES_PATH.tag.index,
     label: "Quản lý tag",
     icon: <LabelIcon />,
     requiresAuth: true,
@@ -153,8 +143,8 @@ export const PATHS: RouteMeta[] = [
   },
   {
     key: "dGFnIGJsb2dnIHBlcnNvbgo=",
-    path: "/tags/create",
-    pathOriginal: "/tags",
+    path: ROUTES_PATH.tag.create,
+    pathOriginal: ROUTES_PATH.tag.index,
     label: "Quản lý tag",
     icon: <LabelIcon />,
     requiresAuth: true,

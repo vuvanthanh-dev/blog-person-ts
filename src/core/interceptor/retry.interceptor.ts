@@ -2,6 +2,11 @@ import { AxiosError } from "axios";
 import { axiosClient } from "./axios-client";
 import { AuthService } from "./auth.service";
 import HTTP_CONFIG from "./http.config";
+import { handleError } from "./helpers";
+import { toastError } from "../custom-toast";
+import ROUTES_PATH from "../routes";
+import { TokenService } from "./token.service";
+import { ERROR_CODE } from "../constants/error-code";
 
 const RETRY_STATUS = [408, 429, 500, 502, 503, 504];
 
@@ -13,31 +18,52 @@ export const setupRetryInterceptor = () => {
       const status = error.response?.status;
 
       if (!config) {
-        return Promise.reject(error);
+        return handleCustomError(error);
       }
 
-      if (status === 401 || status === 403) {
-        AuthService.logout();
-        return Promise.reject(error);
+      if (status === 401 && !config.__isRetryAfterRefresh) {
+        try {
+          const refreshToken = TokenService.getRefreshToken();
+          if (refreshToken) {
+            config.headers = config.headers || {};
+            config.headers["Authorization"] = `Bearer ${refreshToken}`;
+            config.__isRetryAfterRefresh = true;
+
+            return axiosClient(config);
+          } else {
+            toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
+            AuthService.logout();
+            return;
+          }
+        } catch (err) {
+          toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
+          AuthService.logout();
+          return;
+        }
+      }
+
+      if (status === 403) {
+        toastError(ERROR_CODE.ERR_FORBIDDEN_ACCESS);
+        window.location.href = ROUTES_PATH.home.index;
+        return;
       }
 
       const isNetworkError = !error.response;
 
       if (!isNetworkError && !RETRY_STATUS.includes(status!)) {
-        return Promise.reject(error);
+        return handleCustomError(error);
       }
 
       const maxRetry = HTTP_CONFIG.retry.times;
       const retryDelay = HTTP_CONFIG.retry.delay;
 
       if (!maxRetry || maxRetry <= 0) {
-        return Promise.reject(error);
+        return handleCustomError(error);
       }
-      console.log("Retry count: ", config.__retryCount);
       config.__retryCount = config.__retryCount || 0;
 
       if (config.__retryCount >= maxRetry) {
-        return Promise.reject(error);
+        return handleCustomError(error);
       }
 
       config.__retryCount += 1;
@@ -47,4 +73,8 @@ export const setupRetryInterceptor = () => {
       return axiosClient(config);
     }
   );
+};
+
+const handleCustomError = (error: AxiosError<unknown, any>): any => {
+  return Promise.reject(handleError(error));
 };

@@ -1,12 +1,5 @@
 import clsx from "clsx";
-
-interface ButtonProps {
-  title: string;
-  style?: React.CSSProperties;
-  className?: string;
-  onClick?: () => void;
-  disabled?: boolean;
-}
+import type { ButtonProps } from "@/core/types/button.type";
 
 const ButtonComponent = (props: ButtonProps) => {
   const {

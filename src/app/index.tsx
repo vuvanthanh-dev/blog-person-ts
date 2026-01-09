@@ -1,11 +1,18 @@
+import { Suspense } from "react";
 import { BrowserRouter } from "react-router-dom";
+import LoadingPage from "@/core/pages/loading";
 import AppRoutes from "./routes";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Suspense fallback={<LoadingPage />}>
+          <AppRoutes />
+        </Suspense>
+      </BrowserRouter>
+      <LoadingPage />
+    </>
   );
 };
 
