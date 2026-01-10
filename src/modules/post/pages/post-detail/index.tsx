@@ -8,6 +8,8 @@ import { getCategories } from "@/modules/category/slice.category";
 import { formConfig, initialValues } from "./config";
 import type { DetailPostForm } from "@/modules/post/types/form.type";
 import { getPostBySlug } from "@/modules/post/slice.post";
+import { getTags } from "@/modules/tag/slice.tag";
+import { PAGE_SIZE_NO_LIMIT } from "@/core/constants/table.constant";
 
 interface PostDetailPageProps {}
 
@@ -19,6 +21,7 @@ const PostDetailPage: React.FC<PostDetailPageProps> = () => {
   const categories = useSelector(
     (state: RootState) => state.category.categories
   );
+  const tags = useSelector((state: RootState) => state.tag.tags);
   const postDetail = useSelector((state: RootState) => state.post.postDetail);
 
   const [formValues, setFormValues] = useState<DetailPostForm>(initialValues);
@@ -27,7 +30,8 @@ const PostDetailPage: React.FC<PostDetailPageProps> = () => {
   const [tagOptions, setTagOptions] = useState<any>([]);
 
   useEffect(() => {
-    dispatch(getCategories({ pageIndex: 1, pageSize: 1000 }));
+    dispatch(getCategories(PAGE_SIZE_NO_LIMIT));
+    dispatch(getTags(PAGE_SIZE_NO_LIMIT));
   }, []);
 
   useEffect(() => {
@@ -38,8 +42,17 @@ const PostDetailPage: React.FC<PostDetailPageProps> = () => {
       label: item.name,
     }));
     setCategoryOptions(categoriesTemp);
-    setTagOptions(categoriesTemp);
   }, [categories?.items]);
+
+  useEffect(() => {
+    const tagsTemp = (Array.isArray(tags.items) ? tags.items : []).map(
+      (item: any) => ({
+        value: item.slug,
+        label: item.name,
+      })
+    );
+    setTagOptions(tagsTemp);
+  }, [tags?.items]);
 
   useEffect(() => {
     dispatch(getPostBySlug(slug));
@@ -63,28 +76,18 @@ const PostDetailPage: React.FC<PostDetailPageProps> = () => {
     }
   }, [postDetail, categoryOptions, tagOptions]);
 
-  const onSubmit = () => {
-    navigate(-1);
-  };
-
-  const onChange = (data: Record<string, any>) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      ...data,
-    }));
-  };
-
   return (
     <React.Fragment>
       <TitlePageComponent title="Thông tin Bài viết" />
       <BaseFormComponent
         formConfig={formConfig}
         values={formValues}
-        onSubmit={onSubmit}
-        onChange={onChange}
         options={{
           categoryOptions,
           tagOptions,
+        }}
+        handlers={{
+          back: () => navigate(-1),
         }}
       />
     </React.Fragment>

@@ -8,7 +8,7 @@ import type {
 import type { CreatePostPayload } from "../types/payload.type";
 import type { UpdatePostPayload } from "../types/payload.type";
 
-export const PostService = {
+const PostService = {
   getPosts: (params: SearchPostForm) =>
     http.call<PostListResponse>({
       url: ENDPOINT.GET_POSTS,

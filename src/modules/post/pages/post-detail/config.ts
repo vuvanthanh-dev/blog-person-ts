@@ -1,5 +1,5 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
-import { TEXT, BUTTON, EDITOR, SELECT } from "@/core/constants/form-constants";
+import { TEXT, BUTTON, EDITOR, SELECT } from "@/core/constants/form.constant";
 import type { DetailPostForm } from "@/modules/post/types/form.type";
 
 export const formConfig: IBaseFormConfig = {
@@ -60,9 +60,9 @@ export const formConfig: IBaseFormConfig = {
       size: 12,
       childs: [
         {
-          title: "Đóng",
-          type: "submit",
-          action: "submit",
+          title: "Quay lại",
+          type: "button",
+          action: "back",
         },
       ],
     },

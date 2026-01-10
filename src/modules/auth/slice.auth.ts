@@ -3,14 +3,14 @@ import type { Login } from "./types";
 import AuthService from "./service";
 import { TokenService } from "@/core/interceptor/token.service";
 import { toastSuccess, toastError } from "@/core/custom-toast";
-import { SUCCESS_CODE } from "@/core/constants/success-code";
+import { SUCCESS_CODE } from "@/core/constants/success-code.constants";
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (payload: Login) => {
     try {
       const { data } = await AuthService.login(payload);
-      TokenService.set(data.accessToken, data.refreshToken);
+      TokenService.set(data.data.accessToken, data.data.refreshToken);
       toastSuccess(SUCCESS_CODE.AUTH_LOGIN);
       return true;
     } catch (error: any) {

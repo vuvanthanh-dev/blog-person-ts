@@ -1,6 +1,7 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
-import { TEXT, BUTTON, EDITOR, SELECT } from "@/core/constants/form-constants";
+import { TEXT, BUTTON, EDITOR, SELECT } from "@/core/constants/form.constant";
 import type { UpdatePostForm } from "@/modules/post/types/form.type";
+import { styleBtnBorder } from "@/core/constants/style.constant";
 
 export const formConfig: IBaseFormConfig = {
   fields: [
@@ -55,6 +56,12 @@ export const formConfig: IBaseFormConfig = {
       type: BUTTON,
       size: 12,
       childs: [
+        {
+          title: "Quay lại",
+          type: "button",
+          action: "back",
+          style: styleBtnBorder,
+        },
         {
           title: "Cập nhật",
           type: "submit",

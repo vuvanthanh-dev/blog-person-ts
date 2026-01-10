@@ -6,7 +6,7 @@ import { handleError } from "./helpers";
 import { toastError } from "../custom-toast";
 import ROUTES_PATH from "../routes";
 import { TokenService } from "./token.service";
-import { ERROR_CODE } from "../constants/error-code";
+import { ERROR_CODE } from "../constants/error-code.constant";
 
 const RETRY_STATUS = [408, 429, 500, 502, 503, 504];
 

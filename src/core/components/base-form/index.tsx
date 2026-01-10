@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import clsx from "clsx";
 import Select from "react-select";
 import { Form, Row, Col } from "react-bootstrap";
-import { TEXT, SELECT, BUTTON, EDITOR } from "@/core/constants/form-constants";
+import { TEXT, SELECT, BUTTON, EDITOR } from "@/core/constants/form.constant";
 import type { ButtonProps } from "@/core/types/button.type";
 import type { BaseFormComponentProps } from "@/core/types/config-form.type";
 import styles from "./_base-form.module.scss";
@@ -14,8 +14,8 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
   const {
     formConfig,
     values,
-    onSubmit,
-    onChange,
+    onSubmit = () => {},
+    onChange = () => {},
     options,
     handlers,
     handleBlur,
@@ -197,6 +197,7 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                     (child: ButtonProps, childIndex: number) => {
                       if (child.type === "button") {
                         const onClickHandler = handlers?.[child.action];
+
                         return (
                           <ButtonComponent
                             key={`form-button-${childIndex}-Zm9ybS1idXR0b24tY2hpbGQgYmxvZyBwZXJzb24K`}
@@ -204,13 +205,16 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                             disabled={child.disabled}
                             className="me-2"
                             style={child?.style || {}}
-                            onClick={() => {
+                            onClick={(
+                              event: React.MouseEvent<HTMLButtonElement>
+                            ) => {
+                              event.preventDefault();
                               if (typeof onClickHandler === "function") {
                                 onClickHandler();
                               }
                             }}
                             title={child.title}
-                            action="reset"
+                            action={child.action}
                           />
                         );
                       }
@@ -222,7 +226,7 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                           className="me-2"
                           style={child?.style || {}}
                           title={child.title}
-                          action="submit"
+                          action={child.action}
                         />
                       );
                     }

@@ -1,6 +1,7 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
-import { TEXT, BUTTON } from "@/core/constants/form-constants";
-import { PAGE_CURRENT, PAGE_SIZE } from "@/core/constants/table-constants";
+import { TEXT, BUTTON } from "@/core/constants/form.constant";
+import { PAGE_CURRENT, PAGE_SIZE } from "@/core/constants/table.constant";
+import { styleBtnBorder } from "@/core/constants/style.constant";
 
 export const formConfig: IBaseFormConfig = {
   fields: [
@@ -27,12 +28,8 @@ export const formConfig: IBaseFormConfig = {
         {
           title: "Refresh",
           type: "button",
-          action: "handleRefresh",
-          style: {
-            background: "inherit",
-            border: "1px solid #26c55b",
-            color: "#26c55b",
-          },
+          action: "refresh",
+          style: styleBtnBorder,
         },
         {
           title: "Tìm kiếm",

@@ -4,7 +4,7 @@ import {
   PAGE_SIZE,
   TOTAL_PAGES,
   TOTAL_RECORDS,
-} from "../constants/table-constants";
+} from "../constants/table.constant";
 
 export interface BaseTableColumn {
   name: string;

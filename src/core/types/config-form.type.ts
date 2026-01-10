@@ -21,8 +21,8 @@ export type IBaseFormConfig = {
 
 export interface BaseFormComponentProps {
   formConfig: IBaseFormConfig;
-  onSubmit: (data: any) => void;
-  onChange: (data: Record<string, any>) => void;
+  onSubmit?: (data: any) => void;
+  onChange?: (data: Record<string, any>) => void;
   handleBlur?: (data: any) => void;
   values?: Record<string, any>;
   options?: Record<string, any>;

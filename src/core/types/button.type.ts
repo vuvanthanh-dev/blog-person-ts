@@ -4,6 +4,6 @@ export interface ButtonProps {
   action: string;
   style?: React.CSSProperties;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
 }

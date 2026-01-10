@@ -1,5 +1,5 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
-import { TEXT, BUTTON } from "@/core/constants/form-constants";
+import { TEXT, BUTTON } from "@/core/constants/form.constant";
 
 export const loginConfig: IBaseFormConfig = {
   fields: [

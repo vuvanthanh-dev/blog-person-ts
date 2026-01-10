@@ -1,5 +1,5 @@
 import type { BaseTableColumn } from "@/core/types/table.type";
-import { STRING, BUTTON } from "@/core/constants/form-constants";
+import { STRING, BUTTON } from "@/core/constants/form.constant";
 
 export const tableConfig: BaseTableColumn[] = [
   {

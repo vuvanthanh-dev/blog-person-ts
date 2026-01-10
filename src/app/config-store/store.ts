@@ -16,12 +16,14 @@ import loadingReducer from "./loading.slice";
 import authReducer from "@/modules/auth/slice.auth";
 import categoryReducer from "@/modules/category/slice.category";
 import postReducer from "@/modules/post/slice.post";
+import tagReducer from "@/modules/tag/slice.tag";
 
 const rootReducer = combineReducers({
   app: loadingReducer,
   auth: authReducer,
   category: categoryReducer,
   post: postReducer,
+  tag: tagReducer,
 });
 
 const persistConfig = {

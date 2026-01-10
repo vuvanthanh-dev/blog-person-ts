@@ -33,7 +33,7 @@ const FormSearchComponent: FC<FormSearchComponentProps> = () => {
         onChange={onChange}
         onSubmit={handleSubmit}
         handlers={{
-          handleRefresh: () => {
+          refresh: () => {
             setFormValues(initialValues);
           },
         }}

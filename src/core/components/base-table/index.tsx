@@ -6,7 +6,7 @@ import type { RootState } from "@/app/config-store/store";
 import type { ButtonProps } from "@/core/types/button.type";
 import type { BaseTableColumn } from "@/core/types/table.type";
 import ButtonComponent from "@/core/components/button";
-import { STRING, BUTTON } from "@/core/constants/form-constants";
+import { STRING, BUTTON } from "@/core/constants/form.constant";
 import clsx from "clsx";
 
 interface BaseTableProps {

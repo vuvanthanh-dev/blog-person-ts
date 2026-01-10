@@ -1,6 +1,6 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
-import { TEXT, BUTTON } from "@/core/constants/form-constants";
-import { PAGE_CURRENT, PAGE_SIZE } from "@/core/constants/table-constants";
+import { TEXT, BUTTON } from "@/core/constants/form.constant";
+import { PAGE_CURRENT, PAGE_SIZE } from "@/core/constants/table.constant";
 
 export const formConfig: IBaseFormConfig = {
   fields: [

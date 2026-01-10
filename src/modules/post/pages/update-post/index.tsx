@@ -9,16 +9,21 @@ import { formConfig, initialValues } from "./config";
 import type { UpdatePostForm } from "@/modules/post/types/form.type";
 import { updatePost, getPostBySlug } from "@/modules/post/slice.post";
 import { updatePostPayload } from "@/modules/post/utils/payload.utils";
+import { getTags } from "@/modules/tag/slice.tag";
+import { useNavigate } from "react-router-dom";
+import { PAGE_SIZE_NO_LIMIT } from "@/core/constants/table.constant";
 
 interface UpdatePostPageProps {}
 
 const UpdatePostPage: React.FC<UpdatePostPageProps> = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { slug = "" } = useParams();
 
   const categories = useSelector(
     (state: RootState) => state.category.categories
   );
+  const tags = useSelector((state: RootState) => state.tag.tags);
   const postDetail = useSelector((state: RootState) => state.post.postDetail);
 
   const [formValues, setFormValues] = useState<UpdatePostForm>(initialValues);
@@ -27,7 +32,8 @@ const UpdatePostPage: React.FC<UpdatePostPageProps> = () => {
   const [tagOptions, setTagOptions] = useState<any>([]);
 
   useEffect(() => {
-    dispatch(getCategories({ pageIndex: 1, pageSize: 1000 }));
+    dispatch(getCategories(PAGE_SIZE_NO_LIMIT));
+    dispatch(getTags(PAGE_SIZE_NO_LIMIT));
   }, []);
 
   useEffect(() => {
@@ -38,8 +44,17 @@ const UpdatePostPage: React.FC<UpdatePostPageProps> = () => {
       label: item.name,
     }));
     setCategoryOptions(categoriesTemp);
-    setTagOptions(categoriesTemp);
   }, [categories?.items]);
+
+  useEffect(() => {
+    const tagsTemp = (Array.isArray(tags.items) ? tags.items : []).map(
+      (item: any) => ({
+        value: item.slug,
+        label: item.name,
+      })
+    );
+    setTagOptions(tagsTemp);
+  }, [tags?.items]);
 
   useEffect(() => {
     dispatch(getPostBySlug(slug));
@@ -86,6 +101,9 @@ const UpdatePostPage: React.FC<UpdatePostPageProps> = () => {
         options={{
           categoryOptions,
           tagOptions,
+        }}
+        handlers={{
+          back: () => navigate(-1),
         }}
       />
     </React.Fragment>

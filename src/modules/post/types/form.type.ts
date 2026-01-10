@@ -1,4 +1,4 @@
-import type { Tag } from "@/modules/tag/types";
+import type { TagOption } from "@/modules/tag/types/form.type";
 import type { Category } from "@/modules/category/types";
 
 export interface SearchPostForm {
@@ -11,7 +11,7 @@ export interface CreatePostForm {
   content: string;
   author: string;
   categories: Category[];
-  tags: Tag[];
+  tags: TagOption[];
 }
 
 export interface UpdatePostForm {
@@ -20,7 +20,7 @@ export interface UpdatePostForm {
   slug: string;
   author: string;
   categories: Category[];
-  tags: Tag[];
+  tags: TagOption[];
 }
 
 export interface DetailPostForm {
@@ -29,5 +29,5 @@ export interface DetailPostForm {
   slug: string;
   author: string;
   categories: Category[];
-  tags: Tag[];
+  tags: TagOption[];
 }

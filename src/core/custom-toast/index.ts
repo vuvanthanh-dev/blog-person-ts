@@ -1,5 +1,5 @@
 import { toast, type ToastOptions } from "react-toastify";
-import { formatMessage } from "../constants/error-code";
+import { formatMessage } from "../constants/error-code.constant";
 
 const DEFAULT_ERROR_MESSAGE = "Hệ thống đang bận. Vui lòng thử lại sau.";
 

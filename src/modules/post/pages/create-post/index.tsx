@@ -8,13 +8,18 @@ import { formConfig, initialValues } from "./config";
 import type { CreatePostForm } from "@/modules/post/types/form.type";
 import { createPostPayload } from "@/modules/post/utils/payload.utils";
 import { createPost } from "@/modules/post/slice.post";
+import { getTags } from "@/modules/tag/slice.tag";
+import { useNavigate } from "react-router-dom";
+import { PAGE_SIZE_NO_LIMIT } from "@/core/constants/table.constant";
 
 interface CreatePostPageProps {}
 
 const CreatePostPage: React.FC<CreatePostPageProps> = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const { categories } = useSelector((state: RootState) => state.category);
+  const { tags } = useSelector((state: RootState) => state.tag);
 
   const [formValues, setFormValues] = useState<CreatePostForm>(initialValues);
 
@@ -22,7 +27,8 @@ const CreatePostPage: React.FC<CreatePostPageProps> = () => {
   const [tagOptions, setTagOptions] = useState<any>([]);
 
   useEffect(() => {
-    dispatch(getCategories({ pageIndex: 1, pageSize: 1000 }));
+    dispatch(getCategories(PAGE_SIZE_NO_LIMIT));
+    dispatch(getTags(PAGE_SIZE_NO_LIMIT));
   }, []);
 
   useEffect(() => {
@@ -33,8 +39,17 @@ const CreatePostPage: React.FC<CreatePostPageProps> = () => {
       label: item.name,
     }));
     setCategoryOptions(categoriesTemp);
-    setTagOptions([]);
   }, [categories?.items]);
+
+  useEffect(() => {
+    const tagsTemp = (Array.isArray(tags.items) ? tags.items : []).map(
+      (item: any) => ({
+        value: item.slug,
+        label: item.name,
+      })
+    );
+    setTagOptions(tagsTemp);
+  }, [tags?.items]);
 
   const onSubmit = (data: CreatePostForm) => {
     const payload = createPostPayload(data);
@@ -59,6 +74,9 @@ const CreatePostPage: React.FC<CreatePostPageProps> = () => {
         options={{
           categoryOptions,
           tagOptions,
+        }}
+        handlers={{
+          back: () => navigate(-1),
         }}
       />
     </React.Fragment>
