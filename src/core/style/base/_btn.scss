@@ -1,14 +1,17 @@
-.btn {
+@import "../abstracts/_variables.scss";
+
+.base-btn {
   cursor: pointer;
   min-width: 120px;
   height: 40px;
   border-radius: 5px;
   border: none;
-  background-color: #26c55b;
-  color: #fff;
+  background-color: $base-btn-color;
+  color: $base-color-white;
+  font-weight: 500;
 
   &:hover {
-    background-color: #26c55b;
+    background-color: $base-btn-hover-color;
   }
 
   &:disabled {

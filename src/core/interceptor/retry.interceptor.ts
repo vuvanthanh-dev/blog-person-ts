@@ -38,7 +38,7 @@ export const setupRetryInterceptor = () => {
         } catch (err) {
           toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
           AuthService.logout();
-          return;
+          return Promise.reject(err);
         }
       }
 

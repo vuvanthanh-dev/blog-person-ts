@@ -1,18 +1,28 @@
-import { useEffect } from "react";
-import CategoryService from "@/modules/category/service";
-import type { CategoryPayload } from "@/modules/category/types";
+import React from "react";
+import FormSearchComponent from "@/modules/category/components/form-search";
+import BaseTableComponent from "@/core/components/base-table";
+import { tableConfig } from "./config";
 
-const CategoryListPage = () => {
-  useEffect(() => {
-    const params: CategoryPayload = {};
-    CategoryService.getCategories(params).then((res) => {
-      console.log(res);
-    });
-  }, []);
+interface CategoryListPageProps {}
+
+const CategoryListPage: React.FC<CategoryListPageProps> = () => {
+  const handleCellAction = (row: Record<string, any>) => {
+    console.log(row);
+  };
+
   return (
-    <div>
-      <h1>Category List</h1>
-    </div>
+    <React.Fragment>
+      <div className="base-background mb-10 base-title">Quản lý Danh mục</div>
+      <FormSearchComponent />
+      <div className="base-background mt-10">
+        <BaseTableComponent
+          tableConfig={tableConfig}
+          reducer="category"
+          state="list"
+          handleCellAction={handleCellAction}
+        />
+      </div>
+    </React.Fragment>
   );
 };
 

@@ -1,5 +1,3 @@
-import { toastError } from "../custom-toast";
-
 export const handleError = (error: unknown) => {
   if (
     typeof error === "object" &&
@@ -13,15 +11,12 @@ export const handleError = (error: unknown) => {
     "message" in (error as any).response.data
   ) {
     const err = (error as any).response.data;
-    toastError(err.message);
     return err;
   }
 
   if (error instanceof Error) {
-    toastError(error.message);
     return error;
   }
 
-  toastError(String(error));
   return error;
 };

@@ -6,7 +6,7 @@ export type RouteMeta = {
   path: string;
   pathOriginal: string;
   label?: string;
-  roles?: Role[];
+  roles: Role[];
   icon?: React.ReactNode | string;
   hidden?: boolean;
   requiresAuth?: boolean;

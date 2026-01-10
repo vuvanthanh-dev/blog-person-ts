@@ -10,7 +10,10 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route
+          path="/"
+          element={<Navigate to={ROUTES_PATH.home.index} replace />}
+        />
         {PATHS.map((route) => {
           const Component = route.component;
           return (

@@ -8,7 +8,7 @@ import ButtonComponent from "@/core/components/button";
 import { STRING, BUTTON } from "@/core/constants/form-constants";
 import styles from "./_table.module.scss";
 
-interface DataTableProps {
+interface BaseTableProps {
   tableConfig: BaseTableColumn[];
   btnGroup?: ButtonProps[];
   reducer: keyof RootState;
@@ -17,7 +17,7 @@ interface DataTableProps {
   handlers?: Record<string, (e?: React.MouseEvent) => void>;
 }
 
-export const DataTable: React.FC<DataTableProps> = (props) => {
+export const BaseTableComponent: React.FC<BaseTableProps> = (props) => {
   const { tableConfig, reducer, state, handleCellAction, btnGroup, handlers } =
     props;
   const dataTable = useSelector(
@@ -118,3 +118,5 @@ export const DataTable: React.FC<DataTableProps> = (props) => {
     </React.Fragment>
   );
 };
+
+export default BaseTableComponent;

@@ -2,11 +2,12 @@ import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import clsx from "clsx";
 import Select from "react-select";
-import { Button, Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import { TEXT, SELECT, BUTTON } from "@/core/constants/form-constants";
 import type { ButtonProps } from "@/core/types/button.type";
 import type { BaseFormComponentProps } from "@/core/types/config-form.type";
 import styles from "./_base-form.module.scss";
+import ButtonComponent from "../button";
 
 const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
   const {
@@ -151,32 +152,32 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                       if (child.type === "button") {
                         const onClickHandler = handlers?.[child.action];
                         return (
-                          <Button
+                          <ButtonComponent
                             key={`form-button-${childIndex}-Zm9ybS1idXR0b24tY2hpbGQgYmxvZyBwZXJzb24K`}
                             type="button"
                             disabled={child.disabled}
                             className="me-2"
                             style={child?.style || {}}
-                            onClick={(event) => {
+                            onClick={() => {
                               if (typeof onClickHandler === "function") {
-                                onClickHandler(event);
+                                onClickHandler();
                               }
                             }}
-                          >
-                            {child.title}
-                          </Button>
+                            title={child.title}
+                            action="reset"
+                          />
                         );
                       }
                       return (
-                        <Button
+                        <ButtonComponent
                           key={`form-button-${childIndex}-Zm9ybS1idXR0b24tc3VibWl0IGJsb2cgcGVyc29uCg==`}
                           type="submit"
                           disabled={child.disabled}
                           className="me-2"
                           style={child?.style || {}}
-                        >
-                          {child.title}
-                        </Button>
+                          title={child.title}
+                          action="submit"
+                        />
                       );
                     }
                   )}

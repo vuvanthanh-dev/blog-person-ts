@@ -12,7 +12,7 @@ const ButtonComponent = (props: ButtonProps) => {
   return (
     <button
       style={style}
-      className={clsx("btn", className)}
+      className={clsx("base-btn", className)}
       onClick={onClick}
       disabled={disabled}
     >

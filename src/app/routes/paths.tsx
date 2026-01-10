@@ -16,7 +16,7 @@ export const PATHS: RouteMeta[] = [
     label: "Trang chủ",
     icon: <HomeIcon />,
     requiresAuth: true,
-    roles: [],
+    roles: ["ADMIN"],
     hidden: false,
     component: lazy(() => import("@/modules/home/page")),
   },

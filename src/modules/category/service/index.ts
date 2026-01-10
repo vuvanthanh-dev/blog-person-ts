@@ -1,6 +1,10 @@
 import http from "@/core/interceptor";
 import ENDPOINT from "./endpoint";
-import type { CategoryListResponse, CategoryPayload } from "../types";
+import type {
+  CategoryListResponse,
+  CategoryPayload,
+  CategoryResponse,
+} from "../types";
 
 export const CategoryService = {
   getCategories: (params: CategoryPayload) =>
@@ -11,27 +15,26 @@ export const CategoryService = {
     }),
 
   getCategoryBySlug: (slug: string) =>
-    http.call<CategoryListResponse>({
+    http.call<CategoryResponse>({
       url: `${ENDPOINT.GET_CATEGORIES}/${slug}`,
       method: "GET",
     }),
 
-  createCategory: (data: CategoryPayload) =>
-    http.call<CategoryListResponse>({
+  createCategory: (data: string) =>
+    http.call<CategoryResponse>({
       url: ENDPOINT.CREATE_CATEGORY,
       method: "POST",
       data,
     }),
 
-  updateCategory: (slug: string, data: CategoryPayload) =>
-    http.call<CategoryListResponse>({
+  updateCategory: (slug: string) =>
+    http.call<CategoryResponse>({
       url: `${ENDPOINT.UPDATE_CATEGORY}/${slug}`,
       method: "PUT",
-      data,
     }),
 
   deleteCategory: (slug: string) =>
-    http.call<CategoryListResponse>({
+    http.call<CategoryResponse>({
       url: `${ENDPOINT.DELETE_CATEGORY}/${slug}`,
       method: "DELETE",
     }),

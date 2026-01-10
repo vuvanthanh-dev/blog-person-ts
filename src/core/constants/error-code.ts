@@ -8,7 +8,7 @@ export const ERROR_CODE = {
 
 const MESS_DEFAULT = "Hệ thống đang bận. Vui lòng thử lại sau.";
 
-export const formatError = (errorCode: string, message?: string | null) => {
+export const formatMessage = (errorCode: string, message?: string | null) => {
   if (message) {
     if (message === "SYSTEM_ERROR") {
       return MESS_DEFAULT;
