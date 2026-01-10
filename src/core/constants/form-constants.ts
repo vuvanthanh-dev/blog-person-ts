@@ -17,3 +17,4 @@ export const HIDDEN = "hidden";
 export const COLOR = "color";
 export const URL = "url";
 export const BUTTON = "button";
+export const EDITOR = "editor";

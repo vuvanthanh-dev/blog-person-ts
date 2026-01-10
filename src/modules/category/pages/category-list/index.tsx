@@ -1,6 +1,6 @@
 import React from "react";
-import FormSearchComponent from "@/modules/category/components/form-search";
 import BaseTableComponent from "@/core/components/base-table";
+import FormSearchComponent from "./form-search";
 import { tableConfig } from "./config";
 
 interface CategoryListPageProps {}

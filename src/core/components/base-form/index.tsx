@@ -3,11 +3,12 @@ import { Controller, useForm } from "react-hook-form";
 import clsx from "clsx";
 import Select from "react-select";
 import { Form, Row, Col } from "react-bootstrap";
-import { TEXT, SELECT, BUTTON } from "@/core/constants/form-constants";
+import { TEXT, SELECT, BUTTON, EDITOR } from "@/core/constants/form-constants";
 import type { ButtonProps } from "@/core/types/button.type";
 import type { BaseFormComponentProps } from "@/core/types/config-form.type";
 import styles from "./_base-form.module.scss";
 import ButtonComponent from "../button";
+import EditorComponent from "../editor";
 
 const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
   const {
@@ -134,6 +135,24 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                       {errors[field.name]?.message as string}
                     </Form.Control.Feedback>
                   </Form.Group>
+                </Col>
+              );
+            }
+
+            if (field.type === EDITOR) {
+              return (
+                <Col
+                  key={`form-${index}-monacaZm9ybS1lZGl0ZXIgYmxvZyBwZXJzb24K`}
+                  md={field.size}
+                  xs={12}
+                  className="mb-3"
+                  style={field?.style || {}}
+                >
+                  <EditorComponent
+                    value={values?.[field.name]}
+                    name={field.name}
+                    onChange={onChange}
+                  />
                 </Col>
               );
             }

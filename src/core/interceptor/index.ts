@@ -1,19 +1,22 @@
 import { axiosClient } from "./axios-client";
-import type { HttpRequestConfig } from "./types";
+import type { HttpRequestConfig, ResponseBase } from "./types";
 import "./interceptor";
+import { removeEmpty } from "./helpers";
 
-const call = <TResponse = any, TData = any, TParams = any>(
+const call = async <TResponse = any, TData = any, TParams = any>(
   config: HttpRequestConfig<TData, TParams>
 ) => {
   const { url, method = "GET", params, data, ...rest } = config;
 
-  return axiosClient.request<TResponse>({
+  const response = await axiosClient.request<ResponseBase<TResponse>>({
     url,
     method,
-    params,
+    params: removeEmpty(params),
     data,
     ...rest,
   });
+
+  return response;
 };
 
 const upload = <

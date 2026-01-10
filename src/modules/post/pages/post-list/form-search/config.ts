@@ -6,8 +6,8 @@ export const formConfig: IBaseFormConfig = {
   fields: [
     {
       type: TEXT,
-      name: "name",
-      label: "Tên danh mục",
+      name: "title",
+      label: "Tên bài viết",
       required: false,
       size: 3,
       validation: {},
@@ -17,7 +17,6 @@ export const formConfig: IBaseFormConfig = {
       name: "slug",
       label: "Slug",
       required: false,
-      isPassword: true,
       size: 3,
       validation: {},
     },
@@ -46,7 +45,7 @@ export const formConfig: IBaseFormConfig = {
 };
 
 export const initialValues = {
-  name: "",
+  title: "",
   slug: "",
   pageIndex: PAGE_CURRENT,
   pageSize: PAGE_SIZE,

@@ -11,3 +11,9 @@ export interface HttpRequestConfig<TData = any, TParams = any>
   params?: TParams;
   retry?: number;
 }
+
+export interface ResponseBase<T = any> {
+  code: string;
+  message: string;
+  data: T;
+}

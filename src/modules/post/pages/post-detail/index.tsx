@@ -1,8 +1,13 @@
-const PostDetailPage = () => {
+import React from "react";
+import TitlePageComponent from "@/core/components/title-page";
+
+interface PostDetailPageProps {}
+
+const PostDetailPage: React.FC<PostDetailPageProps> = () => {
   return (
-    <div>
-      <h1>Post Detail</h1>
-    </div>
+    <React.Fragment>
+      <TitlePageComponent title="Chi tiết Bài viết" />
+    </React.Fragment>
   );
 };
 

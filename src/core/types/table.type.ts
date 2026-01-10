@@ -20,14 +20,14 @@ export interface BaseTableConfig {
   data: any[];
   pageCurrent: number;
   pageSize: number;
-  totalPage: number;
-  totalRecord: number;
+  totalPages: number;
+  totalRecords: number;
 }
 
 export const BASE_TABLE_DEFAULT: BaseTableConfig = {
   data: [],
   pageCurrent: PAGE_CURRENT,
   pageSize: PAGE_SIZE,
-  totalPage: TOTAL_PAGES,
-  totalRecord: TOTAL_RECORDS,
+  totalPages: TOTAL_PAGES,
+  totalRecords: TOTAL_RECORDS,
 };

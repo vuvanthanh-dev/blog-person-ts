@@ -1,10 +1,14 @@
 import React from "react";
+import TitlePageComponent from "@/core/components/title-page";
+import FormSearchComponent from "./form-search";
+import FormTableComponent from "./form-table";
 
 const PostListPage = () => {
   return (
     <React.Fragment>
-      <div className="base-background mb-10 base-title">Quản lý Bài viết</div>
-      <h1>Post List</h1>
+      <TitlePageComponent title="Quản lý Bài viết" />
+      <FormSearchComponent />
+      <FormTableComponent />
     </React.Fragment>
   );
 };

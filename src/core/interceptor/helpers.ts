@@ -20,3 +20,27 @@ export const handleError = (error: unknown) => {
 
   return error;
 };
+
+export const removeEmpty = (obj: any): any => {
+  if (
+    obj === null ||
+    typeof obj !== "object" ||
+    obj instanceof FormData ||
+    obj instanceof Blob
+  ) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj;
+  }
+
+  const newObj: any = {};
+  Object.keys(obj).forEach((key) => {
+    const value = obj[key];
+    if (value !== "") {
+      newObj[key] = value;
+    }
+  });
+  return newObj;
+};

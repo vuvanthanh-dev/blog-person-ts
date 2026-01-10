@@ -1,8 +1,13 @@
-const UpdatePostPage = () => {
+import React from "react";
+import TitlePageComponent from "@/core/components/title-page";
+
+interface UpdatePostPageProps {}
+
+const UpdatePostPage: React.FC<UpdatePostPageProps> = () => {
   return (
-    <div>
-      <h1>Update Post</h1>
-    </div>
+    <React.Fragment>
+      <TitlePageComponent title="Cập nhật Bài viết" />
+    </React.Fragment>
   );
 };
 
