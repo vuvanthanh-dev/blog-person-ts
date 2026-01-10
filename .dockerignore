@@ -1,0 +1,26 @@
+node_modules
+build
+dist
+.git
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage
+
+# Cache
+.eslintcache
+
+# Husky
+.husky/_
