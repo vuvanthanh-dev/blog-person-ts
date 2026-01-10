@@ -38,6 +38,7 @@ const MainLayout = () => {
             background: "#f5f5f5",
             mt: `${headerHeight}px`,
             transition: "margin 0.3s, width 0.3s",
+            minHeight: `calc(100vh - ${headerHeight}px)`,
           }}
         >
           <Outlet />

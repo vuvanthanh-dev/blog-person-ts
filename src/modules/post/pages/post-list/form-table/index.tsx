@@ -28,7 +28,7 @@ const FormTableComponent: React.FC<FormTableComponentProps> = () => {
         btnGroup={btnGroup}
         tableConfig={tableConfig}
         reducer="post"
-        state="postsTable"
+        state="posts"
         handleCellAction={handleCellAction}
         handlers={handlers}
       />

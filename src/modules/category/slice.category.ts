@@ -9,7 +9,7 @@ export const getCategories = createAsyncThunk(
   async (payload: CategoryPayload) => {
     try {
       const { data } = await CategoryService.getCategories(payload);
-      return data;
+      return data.data;
     } catch (error: any) {
       toastError(error?.message);
       return {} as CategoryListResponse;
@@ -22,7 +22,7 @@ export const getCategoryBySlug = createAsyncThunk(
   async (payload: string) => {
     try {
       const { data } = await CategoryService.getCategoryBySlug(payload);
-      return data;
+      return data.data;
     } catch (error: any) {
       toastError(error?.message);
       return {} as CategoryResponse;
@@ -70,7 +70,7 @@ export const deleteCategory = createAsyncThunk(
 );
 
 const initialState = {
-  list: {} as CategoryListResponse,
+  categories: {} as CategoryListResponse,
   detail: {} as CategoryResponse,
   isCreate: false,
   isUpdate: false,
@@ -83,7 +83,7 @@ const category = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getCategories.fulfilled, (state, action) => {
-      state.list = action.payload;
+      state.categories = action.payload;
     });
     builder.addCase(getCategoryBySlug.fulfilled, (state, action) => {
       state.detail = action.payload;

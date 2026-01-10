@@ -31,11 +31,12 @@ interface EditorProps {
   value: string;
   name: string;
   placeholder?: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onChange: (e: string) => void;
   className?: string;
   style?: React.CSSProperties;
   modules?: any;
   formats?: string[];
+  disabled?: boolean;
 }
 
 const EditorComponent: React.FC<EditorProps> = (props) => {
@@ -43,33 +44,16 @@ const EditorComponent: React.FC<EditorProps> = (props) => {
     onChange,
     placeholder,
     value,
-    name,
     className = "",
     style = {},
     modules = defaultModules,
     formats = defaultFormats,
+    disabled = false,
   } = props;
 
-  const handleChange = (content: string) => {
-    const event = {
-      target: {
-        name,
-        value: content,
-      },
-      // Mimic React ChangeEvent behavior
-      persist: () => {},
-      bubbles: true,
-      cancelable: true,
-      defaultPrevented: false,
-      currentTarget: null,
-      isDefaultPrevented: () => false,
-      isPropagationStopped: () => false,
-      nativeEvent: new Event("change"),
-      preventDefault: () => {},
-      stopPropagation: () => {},
-      type: "change",
-    } as unknown as React.ChangeEvent<HTMLTextAreaElement>;
-    onChange(event);
+  const customModules = {
+    ...modules,
+    toolbar: disabled ? [] : modules.toolbar,
   };
 
   return (
@@ -77,9 +61,10 @@ const EditorComponent: React.FC<EditorProps> = (props) => {
       <ReactQuill
         theme="snow"
         value={value}
-        onChange={handleChange}
-        modules={modules}
+        onChange={onChange}
+        modules={customModules}
         formats={formats}
+        readOnly={disabled}
         placeholder={placeholder}
       />
     </div>

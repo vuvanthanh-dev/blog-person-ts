@@ -18,7 +18,7 @@ const CategoryListPage: React.FC<CategoryListPageProps> = () => {
         <BaseTableComponent
           tableConfig={tableConfig}
           reducer="category"
-          state="list"
+          state="categories"
           handleCellAction={handleCellAction}
         />
       </div>

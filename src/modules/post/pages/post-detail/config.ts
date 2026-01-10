@@ -1,6 +1,6 @@
 import type { IBaseFormConfig } from "@/core/types/config-form.type";
 import { TEXT, BUTTON, EDITOR, SELECT } from "@/core/constants/form-constants";
-import type { CreatePostForm } from "@/modules/post/types/form.type";
+import type { DetailPostForm } from "@/modules/post/types/form.type";
 
 export const formConfig: IBaseFormConfig = {
   fields: [
@@ -9,6 +9,16 @@ export const formConfig: IBaseFormConfig = {
       name: "title",
       label: "Tên bài viết",
       required: false,
+      disabled: true,
+      size: 12,
+      validation: {},
+    },
+    {
+      type: TEXT,
+      name: "slug",
+      label: "Slug",
+      required: false,
+      disabled: true,
       size: 12,
       validation: {},
     },
@@ -17,6 +27,7 @@ export const formConfig: IBaseFormConfig = {
       name: "content",
       label: "Nội dung",
       required: false,
+      disabled: true,
       size: 12,
       validation: {},
     },
@@ -29,7 +40,8 @@ export const formConfig: IBaseFormConfig = {
       size: 12,
       validation: {},
       isMulti: true,
-      placeholder: "Chọn danh mục",
+      disabled: true,
+      placeholder: "",
     },
     {
       type: SELECT,
@@ -40,14 +52,15 @@ export const formConfig: IBaseFormConfig = {
       size: 12,
       validation: {},
       isMulti: true,
-      placeholder: "Chọn tag",
+      disabled: true,
+      placeholder: "",
     },
     {
       type: BUTTON,
       size: 12,
       childs: [
         {
-          title: "Tạo mới",
+          title: "Đóng",
           type: "submit",
           action: "submit",
         },
@@ -56,10 +69,11 @@ export const formConfig: IBaseFormConfig = {
   ],
 };
 
-export const initialValues: CreatePostForm = {
+export const initialValues: DetailPostForm = {
   title: "",
   content: "",
   categories: [],
   tags: [],
+  slug: "",
   author: "",
 };

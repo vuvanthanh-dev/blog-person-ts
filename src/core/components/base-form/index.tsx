@@ -139,22 +139,49 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
               );
             }
 
-            if (field.type === EDITOR) {
-              return (
-                <Col
-                  key={`form-${index}-monacaZm9ybS1lZGl0ZXIgYmxvZyBwZXJzb24K`}
-                  md={field.size}
-                  xs={12}
-                  className="mb-3"
-                  style={field?.style || {}}
-                >
-                  <EditorComponent
-                    value={values?.[field.name]}
-                    name={field.name}
-                    onChange={onChange}
-                  />
-                </Col>
-              );
+            {
+              if (field.type === EDITOR) {
+                return (
+                  <Col
+                    md={field.size}
+                    xs={12}
+                    className="mb-3"
+                    style={field?.style || {}}
+                    key={`form-${index}-monacaZm9ybS1lZGl0ZXIgYmxvZyBwZXJzb24K`}
+                  >
+                    <Form.Group controlId={field.name}>
+                      <Form.Label>
+                        {field.label}
+                        {field?.required && (
+                          <span className={styles["form-required"]}>*</span>
+                        )}
+                      </Form.Label>
+
+                      <Controller
+                        name={field.name}
+                        control={control}
+                        defaultValue={values?.[field.name] || ""}
+                        render={({ field: { value } }) => (
+                          <EditorComponent
+                            value={value}
+                            name={field.name}
+                            disabled={field.disabled}
+                            onChange={(content) => {
+                              setValue(field.name, content);
+                              onChange?.({ [field.name]: content });
+                            }}
+                          />
+                        )}
+                      />
+                      {errors[field.name] && (
+                        <div className="invalid-feedback d-block">
+                          {errors[field.name]?.message as string}
+                        </div>
+                      )}
+                    </Form.Group>
+                  </Col>
+                );
+              }
             }
 
             if (field.type === BUTTON) {

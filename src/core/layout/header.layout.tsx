@@ -17,7 +17,6 @@ const Header = ({ height, sidebarWidth }: Props) => {
         width: `calc(100% - ${sidebarWidth}px)`,
         height: `${height}px`,
         transition: "width 0.3s, left 0.3s",
-        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <Toolbar sx={{ minHeight: `${height}px !important` }}>

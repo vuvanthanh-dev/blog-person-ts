@@ -4,7 +4,7 @@ import BaseFormComponent from "@/core/components/base-form";
 import { formConfig, initialValues } from "./config";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/app/config-store/store";
-import type { PostPayload } from "@/modules/post/types";
+import type { SearchPostForm } from "@/modules/post/types/form.type";
 import { getPosts } from "@/modules/post/slice.post";
 
 interface FormSearchComponentProps {}
@@ -12,7 +12,7 @@ interface FormSearchComponentProps {}
 const FormSearchComponent: FC<FormSearchComponentProps> = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [formValues, setFormValues] = useState<PostPayload>(initialValues);
+  const [formValues, setFormValues] = useState<SearchPostForm>(initialValues);
 
   const onChange = (data: Record<string, any>) => {
     setFormValues((prevValues) => ({
@@ -21,7 +21,7 @@ const FormSearchComponent: FC<FormSearchComponentProps> = () => {
     }));
   };
 
-  const handleSubmit = async (data: PostPayload) => {
+  const handleSubmit = async (data: SearchPostForm) => {
     dispatch(getPosts(data));
   };
 
