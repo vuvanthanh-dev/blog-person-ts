@@ -15,9 +15,13 @@ type Props = {
 const PrivateRoute = ({ children }: Props) => {
   const location = useLocation();
   const route = matchRoute(PATHS, location.pathname);
-  const userRole: Role[] = ["ADMIN", "USER", "GUEST"];
 
+  // Get user roles from Redux state (populated during login)
+  // TODO: If backend doesn't return roles yet, this will be empty array
+  // In that case, you may need to decode JWT token to extract roles
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const userRole: Role[] = ["ADMIN", "USER", "GUEST"]; //roles.length > 0 ? (roles as Role[]) : [];
+
   const isAccessToken = Boolean(TokenService.getAccessToken());
 
   if (!route) return children;

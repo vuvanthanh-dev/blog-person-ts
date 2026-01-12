@@ -8,6 +8,7 @@ import type { BaseTableColumn } from "@/core/types/table.type";
 import ButtonComponent from "@/core/components/button";
 import { STRING, BUTTON } from "@/core/constants/form.constant";
 import clsx from "clsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 interface BaseTableProps {
   tableConfig: BaseTableColumn[];

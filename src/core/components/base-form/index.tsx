@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense, useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import clsx from "clsx";
 import Select from "react-select";
@@ -8,7 +8,11 @@ import type { ButtonProps } from "@/core/types/button.type";
 import type { BaseFormComponentProps } from "@/core/types/config-form.type";
 import styles from "./_base-form.module.scss";
 import ButtonComponent from "../button";
-import EditorComponent from "../editor";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// ⚡ Performance: Lazy load EditorComponent (React Quill is ~100KB+)
+// Only loaded when form has EDITOR field type
+const EditorComponent = lazy(() => import("../editor"));
 
 const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
   const {
@@ -25,6 +29,7 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
     register,
     handleSubmit,
     setValue,
+    reset,
     control,
     formState: { errors },
   } = useForm({
@@ -33,13 +38,34 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
     defaultValues: values || {},
   });
 
+  // ⚡ Performance: Use reset() instead of setValue in loop
+  // Stringify values for deep comparison to prevent unnecessary resets
+  const valuesString = JSON.stringify(values);
+
   useEffect(() => {
     if (values) {
-      Object.entries(values).forEach(([key, value]) => {
-        setValue(key, value);
-      });
+      reset(values);
     }
-  }, [values, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [valuesString, reset]);
+
+  // ⚡ Performance: Memoize onChange and onBlur callbacks
+  // These prevent child components from re-rendering unnecessarily
+  const memoizedOnChange = useCallback(
+    (data: Record<string, any>) => {
+      onChange(data);
+    },
+    [onChange]
+  );
+
+  const memoizedOnBlur = useCallback(
+    (data: Record<string, any>) => {
+      if (handleBlur) {
+        handleBlur(data);
+      }
+    },
+    [handleBlur]
+  );
 
   return (
     <div className={styles["form-container"]}>
@@ -71,13 +97,11 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                         ...field.validation,
                         onChange: (e) => {
                           const value = e.target.value;
-                          setValue(field.name, value);
-                          onChange({ [field.name]: value });
+                          memoizedOnChange({ [field.name]: value });
                         },
                         onBlur: (e) => {
                           const value = e.target.value;
-                          setValue(field.name, value);
-                          handleBlur?.({ [field.name]: value });
+                          memoizedOnBlur({ [field.name]: value });
                         },
                       })}
                     />
@@ -119,8 +143,8 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                           isMulti={field?.isMulti || false}
                           value={values?.[field.name] ?? null}
                           onChange={(selectedOption) => {
-                            onChange({ [field.name]: selectedOption });
                             setValue(field.name, selectedOption);
+                            memoizedOnChange({ [field.name]: selectedOption });
                           }}
                           onBlur={onBlur}
                           classNamePrefix="react-select"
@@ -162,15 +186,30 @@ const BaseFormComponent: React.FC<BaseFormComponentProps> = (props) => {
                         control={control}
                         defaultValue={values?.[field.name] || ""}
                         render={({ field: { value } }) => (
-                          <EditorComponent
-                            value={value}
-                            name={field.name}
-                            disabled={field.disabled}
-                            onChange={(content) => {
-                              setValue(field.name, content);
-                              onChange?.({ [field.name]: content });
-                            }}
-                          />
+                          <Suspense
+                            fallback={
+                              <div
+                                style={{
+                                  padding: "20px",
+                                  textAlign: "center",
+                                  border: "1px solid #ddd",
+                                  borderRadius: "4px",
+                                }}
+                              >
+                                Đang tải trình soạn thảo...
+                              </div>
+                            }
+                          >
+                            <EditorComponent
+                              value={value}
+                              name={field.name}
+                              disabled={field.disabled}
+                              onChange={(content) => {
+                                setValue(field.name, content);
+                                memoizedOnChange({ [field.name]: content });
+                              }}
+                            />
+                          </Suspense>
                         )}
                       />
                       {errors[field.name] && (

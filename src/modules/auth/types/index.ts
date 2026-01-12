@@ -13,4 +13,5 @@ export interface LoginResponse {
   image: string;
   accessToken: string;
   refreshToken: string;
+  roles?: string[]; // TODO: Backend should return user roles array (e.g., ["ADMIN", "USER"])
 }

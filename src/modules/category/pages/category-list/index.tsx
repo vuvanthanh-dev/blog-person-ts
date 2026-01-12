@@ -6,8 +6,10 @@ import { tableConfig } from "./config";
 interface CategoryListPageProps {}
 
 const CategoryListPage: React.FC<CategoryListPageProps> = () => {
-  const handleCellAction = (row: Record<string, any>) => {
-    console.log(row);
+  const handleCellAction = () => {
+    // Handle cell action here if needed
+    // Example: navigate to detail page, open modal, etc.
+    // Row parameter removed - add back when implementing actual functionality
   };
 
   return (

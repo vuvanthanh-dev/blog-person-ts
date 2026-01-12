@@ -26,11 +26,14 @@ const rootReducer = combineReducers({
   tag: tagReducer,
 });
 
+// ⚡ Performance: Throttle persist writes to reduce localStorage operations
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
   whitelist: ["auth"],
+  throttle: 1000, // Write to localStorage max once per second
+  // This prevents excessive writes and improves performance
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

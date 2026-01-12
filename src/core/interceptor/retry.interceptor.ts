@@ -25,8 +25,21 @@ export const setupRetryInterceptor = () => {
         try {
           const refreshToken = TokenService.getRefreshToken();
           if (refreshToken) {
+            // Call refresh token endpoint to get new access token
+            // Note: This endpoint should be implemented on backend
+            const refreshResponse = await axiosClient.post("/api/auth/refresh", {
+              refresh_token: refreshToken,
+            });
+
+            const newAccessToken = refreshResponse.data.access_token;
+            const newRefreshToken = refreshResponse.data.refresh_token;
+
+            // Save new tokens
+            TokenService.set(newAccessToken, newRefreshToken);
+
+            // Retry original request with new access token
             config.headers = config.headers || {};
-            config.headers["Authorization"] = `Bearer ${refreshToken}`;
+            config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             config.__isRetryAfterRefresh = true;
 
             return axiosClient(config);
@@ -68,7 +81,11 @@ export const setupRetryInterceptor = () => {
 
       config.__retryCount += 1;
 
-      await new Promise((resolve) => setTimeout(resolve, retryDelay));
+      // ⚡ Performance: Exponential backoff instead of fixed delay
+      // Retry 1: 1s, Retry 2: 2s, Retry 3: 4s
+      // This reduces server load and improves success rate
+      const exponentialDelay = retryDelay * Math.pow(2, config.__retryCount - 1);
+      await new Promise((resolve) => setTimeout(resolve, exponentialDelay));
 
       return axiosClient(config);
     }

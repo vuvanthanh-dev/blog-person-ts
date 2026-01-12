@@ -45,6 +45,6 @@ export const loginConfig: IBaseFormConfig = {
 };
 
 export const initialValues = {
-  username: "emilys",
-  password: "emilyspass",
+  username: "",
+  password: "",
 };

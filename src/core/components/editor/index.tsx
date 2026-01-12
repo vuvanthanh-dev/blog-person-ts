@@ -4,6 +4,24 @@ import "react-quill/dist/quill.snow.css";
 
 import styles from "./_editor.module.scss";
 
+/**
+ * Rich Text Editor Component using React Quill
+ *
+ * 🔒 Security Note:
+ * - React Quill has built-in XSS protection during editing
+ * - However, when DISPLAYING saved content (not in editor), use sanitizeHtml:
+ *
+ * ```tsx
+ * import { sanitizeHtml } from '@/core/utils/sanitize';
+ *
+ * // DO NOT render raw HTML like this:
+ * <div dangerouslySetInnerHTML={{ __html: content }} /> // ❌ UNSAFE
+ *
+ * // ALWAYS sanitize first:
+ * <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }} /> // ✅ SAFE
+ * ```
+ */
+
 const defaultModules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],

@@ -43,3 +43,8 @@ coverage
 
 # Husky
 .husky/_
+
+*.md
+
+.claude
+.husky
