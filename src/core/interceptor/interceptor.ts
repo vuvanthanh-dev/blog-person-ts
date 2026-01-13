@@ -6,5 +6,5 @@ import { setupDeduplicationInterceptor } from "./deduplication.interceptor";
 // Order matters: Deduplication -> Auth -> CSRF -> Retry
 setupDeduplicationInterceptor();
 setupAuthInterceptor();
-setupCsrfInterceptor();
+setupCsrfInterceptor(); // Áp dụng cho Django
 setupRetryInterceptor();
