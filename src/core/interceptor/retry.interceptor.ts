@@ -8,6 +8,7 @@ import ROUTES_PATH from "../routes";
 import { TokenService } from "./token.service";
 import { ERROR_CODE } from "../constants/error-code.constant";
 
+// Các HTTP status được phép retry
 const RETRY_STATUS = [408, 429, 500, 502, 503, 504];
 
 export const setupRetryInterceptor = () => {
@@ -21,12 +22,11 @@ export const setupRetryInterceptor = () => {
         return handleCustomError(error);
       }
 
+      // 401: thử refresh token rồi retry request
       if (status === 401 && !config.__isRetryAfterRefresh) {
         try {
           const refreshToken = TokenService.getRefreshToken();
           if (refreshToken) {
-            // Call refresh token endpoint to get new access token
-            // Note: This endpoint should be implemented on backend
             const refreshResponse = await axiosClient.post("/api/auth/refresh", {
               refresh_token: refreshToken,
             });
@@ -34,20 +34,18 @@ export const setupRetryInterceptor = () => {
             const newAccessToken = refreshResponse.data.access_token;
             const newRefreshToken = refreshResponse.data.refresh_token;
 
-            // Save new tokens
             TokenService.set(newAccessToken, newRefreshToken);
 
-            // Retry original request with new access token
             config.headers = config.headers || {};
             config.headers["Authorization"] = `Bearer ${newAccessToken}`;
             config.__isRetryAfterRefresh = true;
 
             return axiosClient(config);
-          } else {
-            toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
-            AuthService.logout();
-            return;
           }
+
+          toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
+          AuthService.logout();
+          return;
         } catch (err) {
           toastError(ERROR_CODE.ERR_SESSION_EXPIRED);
           AuthService.logout();
@@ -55,6 +53,7 @@ export const setupRetryInterceptor = () => {
         }
       }
 
+      // 403: không có quyền truy cập
       if (status === 403) {
         toastError(ERROR_CODE.ERR_FORBIDDEN_ACCESS);
         window.location.href = ROUTES_PATH.home.index;
@@ -63,6 +62,7 @@ export const setupRetryInterceptor = () => {
 
       const isNetworkError = !error.response;
 
+      // Không phải lỗi mạng và không nằm trong danh sách retry
       if (!isNetworkError && !RETRY_STATUS.includes(status!)) {
         return handleCustomError(error);
       }
@@ -73,6 +73,7 @@ export const setupRetryInterceptor = () => {
       if (!maxRetry || maxRetry <= 0) {
         return handleCustomError(error);
       }
+
       config.__retryCount = config.__retryCount || 0;
 
       if (config.__retryCount >= maxRetry) {
@@ -81,10 +82,9 @@ export const setupRetryInterceptor = () => {
 
       config.__retryCount += 1;
 
-      // ⚡ Performance: Exponential backoff instead of fixed delay
-      // Retry 1: 1s, Retry 2: 2s, Retry 3: 4s
-      // This reduces server load and improves success rate
-      const exponentialDelay = retryDelay * Math.pow(2, config.__retryCount - 1);
+      // Delay theo exponential backoff
+      const exponentialDelay =
+        retryDelay * Math.pow(2, config.__retryCount - 1);
       await new Promise((resolve) => setTimeout(resolve, exponentialDelay));
 
       return axiosClient(config);
@@ -92,6 +92,6 @@ export const setupRetryInterceptor = () => {
   );
 };
 
-const handleCustomError = (error: AxiosError<unknown, any>): any => {
+const handleCustomError = (error: AxiosError): any => {
   return Promise.reject(handleError(error));
 };

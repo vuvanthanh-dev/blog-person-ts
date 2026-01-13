@@ -4,46 +4,27 @@ import {
 } from "@/core/constants/token.constant";
 
 /**
- * Token Service - Manages authentication tokens
+ * Service quản lý access token & refresh token
  *
- * ⚠️ SECURITY WARNING: Current Implementation Uses localStorage
- * ================================================================
- * This implementation stores tokens in localStorage, which is vulnerable to XSS attacks.
- * If an attacker can inject JavaScript into your page, they can steal tokens using:
- * `localStorage.getItem('access_token')`
+ * Lưu ý bảo mật:
+ * Hiện tại token được lưu trong localStorage → có rủi ro XSS.
  *
- * 🔒 RECOMMENDED: Migrate to httpOnly Cookies
- * ================================================================
- * For production applications, implement the following:
+ * Khuyến nghị cho production:
+ * - Chuyển sang dùng httpOnly cookie
+ * - Token không truy cập được bằng JavaScript
+ * - Trình duyệt tự động gửi cookie theo request
  *
- * Backend Changes:
- * 1. Set tokens in httpOnly cookies instead of sending in response body:
- *    ```
- *    Set-Cookie: access_token=...; HttpOnly; Secure; SameSite=Strict; Path=/
- *    Set-Cookie: refresh_token=...; HttpOnly; Secure; SameSite=Strict; Path=/
- *    ```
- *
- * Frontend Changes:
- * 1. Enable credentials in axios config (already set in axios-client.ts):
- *    ```
- *    withCredentials: true
- *    ```
- * 2. Remove Authorization header injection (browser handles it automatically)
- * 3. Remove this token service (tokens managed by browser)
- *
- * Benefits:
- * - Tokens cannot be accessed via JavaScript (XSS protection)
- * - Automatically sent with requests (no manual injection needed)
- * - Secure flag ensures HTTPS-only transmission
- * - SameSite prevents CSRF attacks
- *
- * Note: Until backend implements httpOnly cookies, this localStorage
- * approach is used for compatibility.
+ * Khi backend hỗ trợ httpOnly cookie:
+ * - Bật withCredentials: true trong axios
+ * - Không cần inject Authorization header
+ * - Có thể loại bỏ TokenService này
  */
 export const TokenService = {
-  getAccessToken: (): string | null => localStorage.getItem(ACCESS_TOKEN_KEY),
+  getAccessToken: (): string | null =>
+    localStorage.getItem(ACCESS_TOKEN_KEY),
 
-  getRefreshToken: (): string | null => localStorage.getItem(REFRESH_TOKEN_KEY),
+  getRefreshToken: (): string | null =>
+    localStorage.getItem(REFRESH_TOKEN_KEY),
 
   set: (accessToken: string, refreshToken: string) => {
     localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);

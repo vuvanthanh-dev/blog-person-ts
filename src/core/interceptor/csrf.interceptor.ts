@@ -1,24 +1,21 @@
 import { axiosClient } from "./axios-client";
 
 /**
- * CSRF Protection Interceptor
- * Automatically adds CSRF token to POST, PUT, PATCH, DELETE requests
+ * Interceptor bảo vệ CSRF
  *
- * Setup:
- * 1. Backend must set CSRF token in cookie or meta tag when rendering HTML
- * 2. For cookie approach: Backend sets cookie named 'csrf_token'
- * 3. For meta tag approach: Backend renders <meta name="csrf-token" content="...">
+ * Tự động thêm CSRF token vào các request thay đổi dữ liệu
+ * (POST, PUT, PATCH, DELETE)
  *
- * Note: This interceptor checks meta tag first, then falls back to cookie
+ * Ưu tiên lấy token từ thẻ meta, nếu không có thì fallback sang cookie
  */
 export const setupCsrfInterceptor = () => {
   axiosClient.interceptors.request.use((config) => {
-    // Only add CSRF token for state-changing requests
+    // Chỉ áp dụng cho các method thay đổi trạng thái
     const methodsRequiringCsrf = ["post", "put", "patch", "delete"];
     const method = config.method?.toLowerCase();
 
     if (method && methodsRequiringCsrf.includes(method)) {
-      // Method 1: Get CSRF token from meta tag (preferred)
+      // Lấy CSRF token từ meta tag (ưu tiên)
       const metaToken = document
         .querySelector('meta[name="csrf-token"]')
         ?.getAttribute("content");
@@ -28,7 +25,7 @@ export const setupCsrfInterceptor = () => {
         return config;
       }
 
-      // Method 2: Get CSRF token from cookie (fallback)
+      // Fallback: lấy CSRF token từ cookie
       const cookieToken = getCsrfTokenFromCookie();
       if (cookieToken) {
         config.headers["X-CSRF-Token"] = cookieToken;
@@ -40,8 +37,8 @@ export const setupCsrfInterceptor = () => {
 };
 
 /**
- * Extract CSRF token from cookies
- * Looks for cookie named 'csrf_token' or 'XSRF-TOKEN'
+ * Lấy CSRF token từ cookie
+ * Hỗ trợ csrf_token hoặc XSRF-TOKEN
  */
 const getCsrfTokenFromCookie = (): string | null => {
   const cookies = document.cookie.split(";");
